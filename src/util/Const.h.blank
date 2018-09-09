@@ -1,0 +1,20 @@
+#ifndef CONST_H_
+#define CONST_H_
+
+#include <string>
+
+namespace Config {
+	static const char* DEVICE_ID = "simple_identifier_string";
+
+	static const int LED_PIN = 13; // D7 pin
+
+	static const char* WIFI_SSID = "ssid";
+	static const char* WIFI_PASSWORD = "password";
+
+	static const char* MQTT_HOST = "mqtt.host.url";
+	static const char* MQTT_USER = "sensor";
+	static const char* MQTT_PASSWORD = "password";
+	static const char* MQTT_TOPIC = "/sensor";
+};
+
+#endif

@@ -2,17 +2,21 @@
 #include "../led/Led.h"
 #include "Mqtt.h"
 
-void Mqtt::connect(MQTTClient& mqttClient, WiFiClient& wifiClient) {
+void Mqtt::initialize(PubSubClient &mqttClient) {
+	mqttClient.setServer(Config::MQTT_HOST, Config::MQTT_PORT);
+}
 
-	mqttClient.begin(Config::MQTT_HOST, wifiClient);
+void Mqtt::connect(PubSubClient& mqttClient) {
 
 	Serial.println();
 	Serial.print("MQTT connecting to: ");
 	Serial.print(Config::MQTT_HOST);
 
-	while ( !mqttClient.connect(Config::DEVICE_ID, Config::MQTT_USER, Config::MQTT_PASSWORD) ) {
-		Led::pulse(Config::PIN_STATUS_LED, 2);
-		Serial.print(".");
+	while ( !mqttClient.connected() ) {
+		if ( !mqttClient.connect(Config::DEVICE_ID, Config::MQTT_USER, Config::MQTT_PASSWORD) ) {
+			Serial.println("MQTT failed... retrying in 5s...");
+			Led::pulse(Config::PIN_STATUS_LED, 20);
+		}
 	}
 
 	Serial.println();
@@ -23,6 +27,6 @@ void Mqtt::connect(MQTTClient& mqttClient, WiFiClient& wifiClient) {
 	return;
 }
 
-void Mqtt::sendMessage(MQTTClient mqttClient, const char* message) {
+void Mqtt::sendMessage(PubSubClient& mqttClient, const char* message) {
 	mqttClient.publish(Config::MQTT_TOPIC, message);
 }

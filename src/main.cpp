@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
-#include <MQTTClient.h>
+#include <PubSubClient.h>
 
 #include "led/Led.h"
 #include "light/Light.h"
@@ -11,7 +11,7 @@
 #include "wifi/Wifi.h"
 
 WiFiClient wifiClient;
-MQTTClient mqttClient;
+PubSubClient mqttClient(wifiClient);
 
 
 // Maintains the current known status of the motion sensor
@@ -27,9 +27,18 @@ void setup() {
 	Light::initialize(Config::PIN_LDR);
 
 	Wifi::connect();
+
+	Mqtt::initialize(mqttClient);
 }
 
 void loop() {
+
+	// If we've lost our connection, attempt to reconnect
+	if (!mqttClient.connected()) {
+		Mqtt::connect(mqttClient);
+	}
+	// Perform keepalive maintenance on MQTT connection
+	mqttClient.loop();
 
 	// If we've lost our connection, restart the system and try to reconnect
 	// if ( wifiClient.status() != WL_CONNECTED || !mqttClient.connected() ) {
@@ -57,10 +66,6 @@ void loop() {
 		jsonEncoder.printTo(jsonMessageBuffer, sizeof(jsonMessageBuffer));
 
 		Serial.println(jsonMessageBuffer);
-
-		if (!mqttClient.connected()) {
-			Mqtt::connect(mqttClient, wifiClient);
-		}
 
 		mqttClient.publish(Config::MQTT_TOPIC, jsonMessageBuffer);
 	}

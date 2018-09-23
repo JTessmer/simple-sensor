@@ -3,11 +3,12 @@
 
 #include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
-#include <MQTTClient.h>
+#include <PubSubClient.h>
 
 namespace Mqtt {
-	void connect(MQTTClient& mqttClient, WiFiClient& wifiClient);
-	void sendMessage(MQTTClient mqttClient, const char* message);
+	void initialize(PubSubClient& mqttClient);
+	void connect(PubSubClient& mqttClient);
+	void sendMessage(PubSubClient& mqttClient, const char* message);
 }
 
 #endif

@@ -3,4 +3,4 @@
 .clang_complete
 .gcc-flags.json
 
-src/util/Const.h
+src/util/Config.h

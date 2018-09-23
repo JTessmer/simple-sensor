@@ -6,7 +6,8 @@
 namespace Config {
 	static const char* DEVICE_ID = "simple_identifier_string";
 
-	static const int LED_PIN = 13; // D7 pin
+	static const int PIN_LED = 13; // D7 pin
+	static const int PIN_PIR = 5; // D1 pin
 
 	static const char* WIFI_SSID = "ssid";
 	static const char* WIFI_PASSWORD = "password";

@@ -33,3 +33,9 @@ void Wifi::connect() {
 
 	return;
 }
+
+void Wifi::keepAlive() {
+	if (WiFi.status() != WL_CONNECTED) {
+		Wifi::connect();
+	}
+}

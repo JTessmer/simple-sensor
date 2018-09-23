@@ -30,3 +30,29 @@ void Mqtt::connect(PubSubClient& mqttClient) {
 void Mqtt::sendMessage(PubSubClient& mqttClient, const char* message) {
 	mqttClient.publish(Config::MQTT_TOPIC, message);
 }
+
+void Mqtt::sendMotionStatus(PubSubClient& mqttClient, bool motionIsActive, int lightLevel) {
+	StaticJsonBuffer<75> JSONbuffer;
+	JsonObject& jsonEncoder = JSONbuffer.createObject();
+
+	jsonEncoder["device_id"] = Config::DEVICE_ID;
+	jsonEncoder["motion_active"] = motionIsActive;
+	jsonEncoder["light_level"] = lightLevel;
+
+	char jsonMessageBuffer[80];
+	jsonEncoder.printTo(jsonMessageBuffer, sizeof(jsonMessageBuffer));
+
+	Serial.println();
+	Serial.print("Sending Motion event: ");
+	Serial.print(jsonMessageBuffer);
+
+	mqttClient.publish(Config::MQTT_TOPIC, jsonMessageBuffer);
+}
+
+void Mqtt::keepAlive(PubSubClient& mqttClient) {
+	if (mqttClient.connected()) {
+		mqttClient.loop();
+	} else {
+		Mqtt::connect(mqttClient);
+	}
+}

@@ -4,6 +4,7 @@
 namespace Wifi {
 
 	void connect();
+	void keepAlive();
 
 }
 

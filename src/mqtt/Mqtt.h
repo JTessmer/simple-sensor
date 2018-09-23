@@ -9,6 +9,8 @@ namespace Mqtt {
 	void initialize(PubSubClient& mqttClient);
 	void connect(PubSubClient& mqttClient);
 	void sendMessage(PubSubClient& mqttClient, const char* message);
+	void sendMotionStatus(PubSubClient& mqttClient, bool motionIsActive, int lightLevel);
+	void keepAlive(PubSubClient& mqttClient);
 }
 
 #endif

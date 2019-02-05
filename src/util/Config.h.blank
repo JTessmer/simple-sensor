@@ -15,11 +15,16 @@ namespace Config {
 	static const char* WIFI_SSID = "ssid";
 	static const char* WIFI_PASSWORD = "password";
 
+	static const bool USE_MQTT = false;
+	static const bool USE_HTTP = true;
+
 	static const char* MQTT_HOST = "mqtt.host.url";
 	static const int MQTT_PORT = 1883;
 	static const char* MQTT_USER = "sensor";
 	static const char* MQTT_PASSWORD = "password";
 	static const char* MQTT_TOPIC = "/sensor";
+
+	static const char* API_PATH = "http://api.com/path/to/sensor";
 };
 
 #endif

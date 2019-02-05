@@ -8,8 +8,7 @@ void Wifi::connect() {
 	WiFi.begin(Config::WIFI_SSID, Config::WIFI_PASSWORD);
 
 	Serial.println();
-	Serial.print("Wifi connecting to: ");
-	Serial.print(Config::WIFI_SSID);
+	Serial.printf("Wifi connecting to: %s\n", Config::WIFI_SSID);
 
 	// Wait for Connection...
 	while(WiFi.status() != WL_CONNECTED) {
@@ -20,10 +19,7 @@ void Wifi::connect() {
 	// Connection established
 	Led::setBrightnessPercent(Config::PIN_STATUS_LED, 10);
 
-	Serial.println();
-	Serial.print("Wifi connected to '");
-	Serial.print(Config::WIFI_SSID);
-	Serial.println("' successfully!");
+	Serial.printf("\nWifi connected to '%s' successfully!\n", Config::WIFI_SSID);
 	Serial.print("IP Address: ");
 	Serial.println( WiFi.localIP() );
 	Serial.print("Mac Address: ");

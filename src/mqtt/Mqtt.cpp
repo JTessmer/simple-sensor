@@ -3,6 +3,8 @@
 #include "Mqtt.h"
 
 void Mqtt::initialize(PubSubClient &mqttClient) {
+	if (!Config::USE_MQTT) return;
+
 	mqttClient.setServer(Config::MQTT_HOST, Config::MQTT_PORT);
 }
 
@@ -32,6 +34,8 @@ void Mqtt::sendMessage(PubSubClient& mqttClient, const char* message) {
 }
 
 void Mqtt::sendMotionStatus(PubSubClient& mqttClient, bool motionIsActive, int lightLevel) {
+	if (!Config::USE_MQTT) return;
+
 	StaticJsonBuffer<75> JSONbuffer;
 	JsonObject& jsonEncoder = JSONbuffer.createObject();
 
@@ -50,6 +54,8 @@ void Mqtt::sendMotionStatus(PubSubClient& mqttClient, bool motionIsActive, int l
 }
 
 void Mqtt::keepAlive(PubSubClient& mqttClient) {
+	if (!Config::USE_MQTT) return;
+
 	if (mqttClient.connected()) {
 		mqttClient.loop();
 	} else {

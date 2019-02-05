@@ -1,8 +1,8 @@
 #include <Arduino.h>
-#include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
+#include "http/Http.h"
 #include "led/Led.h"
 #include "light/Light.h"
 #include "motion/Motion.h"
@@ -44,6 +44,7 @@ void loop() {
 		int lightLevel = Light::getLightLevel(Config::PIN_LDR);
 
 		Led::setBrightnessPercent(Config::PIN_MOTION_LED, motionIsActive ? 5 : 0);
+		Http::post(motionIsActive, lightLevel);
 		Mqtt::sendMotionStatus(mqttClient, motionIsActive, lightLevel);
 	}
 

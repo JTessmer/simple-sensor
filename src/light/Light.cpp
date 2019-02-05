@@ -7,9 +7,9 @@ void Light::initialize(int lightPin) {
 }
 
 int Light::getLightLevel(int lightPin) {
-	int PURE_DARK = 1024;
-
-	int brightness = PURE_DARK - analogRead(lightPin);
+	// Pure Dark == 0
+	// Pure Light == 1024
+	int brightness =  analogRead(lightPin);
 
 	return brightness;
 }
